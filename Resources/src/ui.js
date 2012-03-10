@@ -133,6 +133,7 @@
 		});
 		var downloadButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonDescarga.png',
+			backgroundSelectedImage: '../images/botonDescargaPicado.png',
 			width: 384,
 			height: 149
 		});
@@ -259,17 +260,46 @@
 		var cameraButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonGaleria.png',
 			width: 140,
-			height: 125
+			height: 125,
+			top: -120
+		});
+		
+		var barraArchivos = Titanium.UI.createImageView({
+			url: '../images/barraFiles.png',
+			height: 90,
+			width: 480,
+		});
+		
+		
+		var botonBack = Titanium.UI.createButton({
+			backgroundImage: '../images/botonAtras.png',
+			backgroundSelectedImage: '../images/botonAtrasPicado.png',
+			width: 68,
+			height: 42,
+			top: -66,
+			left: 10
+		});
+		
+		botonBack.addEventListener('click', function(e){
+			window.close();
 		});
 		
 		var view1 = Titanium.UI.createView({
 				layout: 'vertical',
-				backgroundImage: '../images/fondoConLogo.png',
+				backgroundImage: '../images/fondo.png',
 				width: 480,
 				height: 800
-			});
-		view1.add(Titanium.UI.createView({height:350}));
+		});
 		
+		var logo = Titanium.UI.createImageView({
+			url: '../images/logoChico.png',
+			top: 34
+		});
+		
+		view1.add(barraArchivos);
+		view1.add(botonBack);
+		view1.add(logo);
+		view1.add(Titanium.UI.createView({height:350}));
 		view1.add(cameraButton);
 		
 		cameraButton.addEventListener('click', function() {
@@ -424,7 +454,9 @@
 		});	
 		
 		var lista = Titanium.UI.createTableView({
-			data: files
+			data: files,
+			rowHeight: 500,
+			top: 24
 		});
 		
 		lista.addEventListener('click', function(e) {
@@ -432,6 +464,29 @@
 			var webview = Titanium.UI.createWebView({url: SERVER + "/data/" + selectionData.title});
 			var window_2 = Titanium.UI.createWindow(); window_2.add(webview); window_2.open({modal:true});
 		});
+		
+		var barraArchivos = Titanium.UI.createImageView({
+			url: '../images/barraFiles.png',
+			height: 90,
+			width: 480,
+		});
+		
+		
+		var botonBack = Titanium.UI.createButton({
+			backgroundImage: '../images/botonAtras.png',
+			backgroundSelectedImage: '../images/botonAtrasPicado.png',
+			width: 68,
+			height: 42,
+			top: -66,
+			left: 10
+		});
+		
+		botonBack.addEventListener('click', function(e){
+			window.close();
+		});
+		
+		window.add(barraArchivos);
+		window.add(botonBack);
 		window.add(lista);
 		
 		return window;
