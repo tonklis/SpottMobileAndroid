@@ -194,6 +194,7 @@
 		});
 		
 		botonAtras.addEventListener('click',function(e){
+			actionUI.open();
 			window.close();
 		});
 		
