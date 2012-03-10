@@ -9,45 +9,40 @@ var downloadUI;
 var fileDownloadUI;
 var fileUploadUI;
 
-
-Ti.App.myData = {
-   	places: [], uploadAction: false, selectionData: "test"
-};
-
 loginUI.window().addEventListener('go_home', function(e) {
 	actionUI.open({animated:true});
 	loginUI.window().close();
 });
 
 actionUI.addEventListener('go_results', function(e) {
+	
 	placesUI = Spott.UI.createPlacesUI();
 	placesUI.open({animated:true});
 
 	placesUI.addEventListener('go_download', function(e) {
 		downloadUI = Spott.UI.createDownloadUI();
 		downloadUI.open({animated:true});
-		//placesUI.close();
+		placesUI.close();
 		
 		downloadUI.addEventListener('go_file_download', function(e){
 			fileDownloadUI = Spott.UI.createFileDownloadUI();
 			fileDownloadUI.open({animated:true});
-			//downloadUI.close();
+			downloadUI.close();
 		});
 	});
 	
 	placesUI.addEventListener('go_upload', function(e) {
 		uploadUI = Spott.UI.createUploadUI();
 		uploadUI.open({animated:true});
-		//placesUI.close();
+		placesUI.close();
 		
 		uploadUI.addEventListener('go_file_upload', function(e){
 			fileUploadUI = Spott.UI.createFileUploadUI();
 			fileUploadUI.open({animated:true});
-			//uploadUI.close();
+			uploadUI.close();
 		});
 	});
-	
-	//actionUI.close();
+	actionUI.close();
 });
 
 loginUI.window().open({animated:true});

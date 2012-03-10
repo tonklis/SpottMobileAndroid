@@ -77,12 +77,15 @@
 		xhr.onload = function() {
 			window.fireEvent('go_home'); //quitar
 		};
+		xhr.timeout = 5000;
 		 
 		xhr.open("GET",SERVER + "/users/find_or_create/" + uid +".json");
 		xhr.send(); 
 	}
 	
 	function callFoursquare(window){
+		activity = windowWait(window);
+		activity.show();
 		var saveRequest = Titanium.Network.createHTTPClient();
 		saveRequest.onload = function() {
 			places = [];
@@ -99,16 +102,13 @@
 					"u_id":foursquareData[index].venue.id
 				});
 			}
-			//Titanium.UI.createAlertDialog({message: places.length}).show();
+			activity.hide();
 			window.fireEvent('go_results');
 		};
 		
 		// NYC
 		lat = 40.7;
 		lng = -74;
-		// AUSTIN
-		//lat = 35.675147;
-		//lng = -95.712891;
 		saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + radius + "&client_id=" + foursquareClient + "&client_secret=" + foursquareSecret + "&v=20120215" );
 		//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
 		saveRequest.send();
@@ -123,6 +123,7 @@
 	}
 	
 	Spott.UI.createActionUI = function() {
+		
 		var uploadButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonSubida.png',
 			backgroundSelectedImage: '../images/botonSubidaPicado.png',
@@ -137,7 +138,7 @@
 		});
 		uploadButton.addEventListener('click', function(e) {
 			upload = true;
-			callFoursquare(window);			
+			callFoursquare(window);
 		});
 		
 		downloadButton.addEventListener('click', function(e) {
@@ -206,7 +207,7 @@
 		lista.addEventListener('click', function(e) {
 			selectionData = e.rowData;
 			if (upload){
-				window.fireEvent('go_upload');	
+				window.fireEvent('go_upload');
 			} else {
 				window.fireEvent('go_download');
 			}
@@ -230,8 +231,9 @@
 			Titanium.UI.createAlertDialog({message:this.error}).show();
 		};
 		xhr.onload = function() {
+						
 			place_id = JSON.parse(this.responseText).id;
-			window.fireEvent('go_file_upload');
+			window.fireEvent('go_file_upload');			
 		};
 		 
 		xhr.open("POST", SERVER + "/places/find_or_create/" + selectionData.u_id +".json");
@@ -271,9 +273,10 @@
 		view1.add(cameraButton);
 		
 		cameraButton.addEventListener('click', function() {
+			activity = windowWait(window);
+			activity.show();
 			
 			Titanium.Media.openPhotoGallery({
-			//Titanium.Media.showCamera({
 		
     			success:function(event)
     			{
@@ -286,14 +289,57 @@
 	            		"place_id": place_id
 	        		};
 	        		var xhr = Titanium.Network.createHTTPClient();
-	        		xhr.open("POST",SERVER + "/dfiles/receive/1");
-	       			xhr.send(data_to_send);
-	        		alert("File is uploading...");
-	        		
 	        		xhr.onload = function() {
-	        			//alert(this.responseText); 
-	            		alert('Upload successful!');
+	        			activity.hide();
+						var dialog = Titanium.UI.createOptionDialog({
+					    	options:['Yes', 'No'],
+					    	cancel: 0,
+					    	title:'File upload finished. Do you want to upload another one?'
+						});
+						dialog.show();
+						dialog.addEventListener('click', function(e){
+							
+							if(e.index == 1){		
+								actionUI = Spott.UI.createActionUI();
+								actionUI.addEventListener('go_results', function(e) {
+									placesUI = Spott.UI.createPlacesUI();
+									placesUI.open({animated:true});
+								
+									placesUI.addEventListener('go_download', function(e) {
+										downloadUI = Spott.UI.createDownloadUI();
+										downloadUI.open({animated:true});
+										//placesUI.close();
+										
+										downloadUI.addEventListener('go_file_download', function(e){
+											fileDownloadUI = Spott.UI.createFileDownloadUI();
+											fileDownloadUI.open({animated:true});
+											//downloadUI.close();
+										});
+									});
+									
+									placesUI.addEventListener('go_upload', function(e) {
+										uploadUI = Spott.UI.createUploadUI();
+										uploadUI.open({animated:true});
+										//placesUI.close();
+										
+										uploadUI.addEventListener('go_file_upload', function(e){
+											fileUploadUI = Spott.UI.createFileUploadUI();
+											fileUploadUI.open({animated:true});
+											//uploadUI.close();
+										});
+									});
+									
+									//actionUI.close();
+								});								
+								actionUI.open({animated:true});															
+								window.close();
+							}
+						});
         			};
+        			
+	        		xhr.open("POST",SERVER + "/dfiles/receive/1.json");
+	       			xhr.send(data_to_send);        		
+	        		
     			},
 	    		cancel:function()
 	    		{
@@ -306,7 +352,6 @@
 	    		},
 			});	
 		});
-		
 		window.add(view1);
 		return window;
 	}
@@ -319,6 +364,8 @@
 			navBarHidden: true
 		});
 		
+		activity = windowWait(window);
+		activity.show();
 		var xhr = Titanium.Network.createHTTPClient();
 		xhr.onerror = function() {
 			Titanium.UI.createAlertDialog({message:this.error}).show();
@@ -326,6 +373,7 @@
 		xhr.onload = function() {
 			var dfiles = JSON.parse(this.responseText).dfiles;
 			place_id = JSON.parse(this.responseText).id;
+			activity.hide();
 			files = [];
 			for (var index in dfiles) {
 				files.push({
@@ -381,18 +429,6 @@
 		
 		lista.addEventListener('click', function(e) {
 			selectionData = e.rowData;
-			
-			/*var xhr = Titanium.Network.createHTTPClient();
-			xhr.onerror = function() {
-				Titanium.UI.createAlertDialog({message:this.error}).show();
-			};
-			xhr.onload = function() {
-				alert("downloaded");
-			};
-			 
-			xhr.open("GET", SERVER + "/" + selectionData.location);
-			xhr.receive();*/
-			//downloadFile(selectionData.name, SERVER + "/data/" + selectionData.name);
 			var webview = Titanium.UI.createWebView({url: SERVER + "/data/" + selectionData.title});
 			var window_2 = Titanium.UI.createWindow(); window_2.add(webview); window_2.open({modal:true});
 		});
@@ -401,56 +437,71 @@
 		return window;
 	}
 	
-	function downloadFile(filename, url, fn_end, fn_progress ) {
-	    var file_obj = {file:filename, url:url, path: null};
-	 
-	    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename);
-	    if ( file.exists() ) {
-	        file_obj.path = Titanium.Filesystem.applicationDataDirectory+Titanium.Filesystem.separator;
-	        fn_end(file_obj);
-	    }
-	    else {
-	 
-	        if ( Titanium.Network.online ) {
-	            var c = Titanium.Network.createHTTPClient();
-	 
-	            c.setTimeout(10000);
-	            c.onload = function()
-	            {
-	 
-	                if (c.status == 200 ) {
-	 
-	                    var f = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename);
-	                    f.write(this.responseData);
-	                    file_obj.path = Titanium.Filesystem.applicationDataDirectory+Titanium.Filesystem.separator;
-	                }
-	 
-	                else {
-	                    file_obj.error = 'file not found'; // to set some errors codes
-	                }
-	                fn_end(file_obj);
-	 
-	            };
-	            c.ondatastream = function(e)
-	            {
-	 
-	                if ( fn_progress ) fn_progress(e.progress);
-	            };
-	            c.error = function(e)
-	            {
-	 
-	                file_obj.error = e.error;
-	                fn_end(file_obj);
-	            };
-	            c.open('GET',url);
-	            c.send();           
-	        }
-	        else {
-	            file_obj.error = 'no internet';
-	            fn_end(file_obj);
-	        }
-	 
-	    }
+	function windowWait(window) {
+
+		var isControlsCreated = false;
+		var view1, view2, indicator;
+	
+		function createControls(){
+			if (isControlsCreated) {return;}
+	
+			view1 = Ti.UI.createView({
+				height:'100%',
+				width:'100%',
+				backgroundColor:'#000',
+				opacity:0.5,
+				zIndex:8
+			});
+			view1.hide();
+			window.add(view1);
+	
+			view2 = Ti.UI.createView({
+				height:'100%',
+				width:'100%',
+				zIndex:9
+			});
+			view2.hide();
+			window.add(view2);
+	
+			indicator = Titanium.UI.createActivityIndicator({
+				style:Titanium.UI.iPhone.ActivityIndicatorStyle.BIG,
+				font:{fontFamily:'Arial', fontSize:18, fontWeight:'bold'},
+				color:'#fff',
+				message:'Loading...',
+				height:'100%',
+				width:'auto'
+			});
+			view2.add(indicator);
+	
+			isControlsCreated = true;
+		}
+	
+		//
+		// Public methods stored in api
+		//
+	
+		var api = {};
+	
+		api.show = function(message){
+			createControls();
+	
+			if (message) {indicator.message = message;}
+			else {indicator.message = 'Loading...';}
+	
+			view1.show();
+			view2.show();
+			indicator.show();
+		};
+	
+		api.hide = function(){
+			createControls();
+	
+			view1.hide();
+			view2.hide();
+			indicator.hide();
+		};
+	
+		return api;
 	};
 	
 })();
