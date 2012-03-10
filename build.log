@@ -1,14 +1,8 @@
 Logfile initialized
 [INFO] logfile = /Users/gina/Documents/Titanium Studio Workspace/Spott/build.log
-[DEBUG] /Users/gina/Library/Application Support/Titanium/mobilesdk/osx/1.8.2/android/builder.py install Spott /Users/gina/Library/Application Support/Titanium/Android /Users/gina/Documents/Titanium Studio Workspace/Spott spott.dev 10
+[DEBUG] /Users/gina/Library/Application Support/Titanium/mobilesdk/osx/1.8.2/android/builder.py distribute Spott /Users/gina/Library/Application Support/Titanium/Android /Users/gina/Documents/Titanium Studio Workspace/Spott spott.dev Mexico Key Spott Mexico 10
 [INFO] Titanium SDK version: 1.8.2 (02/23/12 17:46 59b3a90)
-[DEBUG] Waiting for device to be ready ...
-[TRACE] adb devices returned 2 devices/emulators
-[DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.031085 seconds on emulator to get ready
-[DEBUG] spott.dev installed? False
 [INFO] Copying project resources..
-[TRACE] COPYING MODIFIED FILE: /Users/gina/Documents/Titanium Studio Workspace/Spott/Resources/src/ui.js => /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/bin/assets/Resources/src/ui.js
 [TRACE] Generating Java Classes
 [DEBUG] Processing Android resource drawables
 [DEBUG] copying app icon: /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/bin/assets/Resources/appicon.png
@@ -35,11 +29,12 @@ Logfile initialized
 [DEBUG] copying /Users/gina/Documents/Titanium Studio Workspace/Spott/Resources/android/images/res-notlong-port-mdpi/default.png splash screen to /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/res/drawable-notlong-port-mdpi/background.png
 [DEBUG] found splash screen at /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/bin/assets/Resources/default.png
 [TRACE] Writing out AndroidManifest.xml
+[DEBUG] adding /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/AssetCryptImpl.java to javac build list
 [DEBUG] adding /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/R.java to javac build list
 [DEBUG] adding /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottActivity.java to javac build list
 [DEBUG] adding /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottAppInfo.java to javac build list
 [DEBUG] adding /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottApplication.java to javac build list
-[DEBUG] Building Java Sources: "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/R.java" "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottActivity.java" "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottAppInfo.java" "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottApplication.java"
+[DEBUG] Building Java Sources: "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/AssetCryptImpl.java" "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/R.java" "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottActivity.java" "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottAppInfo.java" "/Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/gen/spott/dev/SpottApplication.java"
 [INFO] Compiling Android Resources... This could take some time
 [DEBUG] Android classes.dex built
 [DEBUG] creating unsigned apk: /Users/gina/Documents/Titanium Studio Workspace/Spott/build/android/bin/app-unsigned.apk
@@ -53,10 +48,8 @@ Logfile initialized
 [DEBUG] from resource zip => assets/Resources/images/gallery-button.png
 [DEBUG] from resource zip => assets/Resources/images/logoChico.png
 [DEBUG] from resource zip => assets/Resources/images/thumb.png
-[DEBUG] from resource zip => assets/Resources/src/ui.js
 [DEBUG] from resource zip => assets/Resources/KS_nav_ui.png
 [DEBUG] from resource zip => assets/Resources/KS_nav_views.png
-[DEBUG] from resource zip => assets/Resources/app.js
 [DEBUG] from resource zip => assets/Resources/appicon.png
 [DEBUG] from resource zip => assets/Resources/default.png
 [DEBUG] from resource zip => assets/app.json
@@ -107,9 +100,3 @@ Logfile initialized
 [DEBUG] from JAR /Users/gina/Library/Application Support/Titanium/mobilesdk/osx/1.8.2/android/thirdparty.jar => org/apache/HttpComponents-NOTICE.txt
 [DEBUG] from JAR /Users/gina/Library/Application Support/Titanium/mobilesdk/osx/1.8.2/android/thirdparty.jar => org/apache/mime4j-NOTICE.txt
 [DEBUG] installing native SDK libs
-[DEBUG] Waiting for device to be ready ...
-[TRACE] adb devices returned 2 devices/emulators
-[DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.026017 seconds on emulator to get ready
-[INFO] Installing application on device
-[INFO] Application installed. Launch from drawer on Home Screen
