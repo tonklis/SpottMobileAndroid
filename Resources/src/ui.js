@@ -107,19 +107,19 @@
 		};
 		
 		// NYC
-		lat = 40.7;
+		/*lat = 40.7;
 		lng = -74;
 		saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + radius + "&client_id=" + foursquareClient + "&client_secret=" + foursquareSecret + "&v=20120215" );
 		//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
-		saveRequest.send();
+		saveRequest.send();*/
 		
-		/*Titanium.Geolocation.getCurrentPosition(function(ll) {
+		Titanium.Geolocation.getCurrentPosition(function(ll) {
 			var lat = ll.coords.latitude;
 			var lng = ll.coords.longitude;
 			saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + radius + "&client_id=" + foursquareClient + "&client_secret=" + foursquareSecret + "&v=20120215" );
 			//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
 			saveRequest.send();	    	
-		});*/
+		});
 	}
 	
 	Spott.UI.createActionUI = function() {
