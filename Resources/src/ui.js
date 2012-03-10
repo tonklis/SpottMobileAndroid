@@ -126,8 +126,10 @@
 		
 		var uploadButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonSubida.png',
+			backgroundSelectedImage: '../images/botonSubidaPicado.png',
 			width: 384,
-			height: 149
+			height: 149,
+			
 		});
 		var downloadButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonDescarga.png',
@@ -178,9 +180,28 @@
 			navBarHidden: true
 		});
 		
+		var barra = Titanium.UI.createImageView({
+			url: '../images/barraPlaces.png'
+		});
+		
+		var botonAtras = Titanium.UI.createButton({
+			backgroundImage: '../images/botonAtras.png',
+			backgroundSelectedImage: '../images/botonAtrasPicado.png',
+			width: 68,
+			height: 42,
+			top: -66,
+			left: 10
+		});
+		
+		botonAtras.addEventListener('click',function(e){
+			window.close();
+		});
+		
 		//var view1 = Titanium.UI.createView({layout:'vertical'});
 		var lista = Titanium.UI.createTableView({
-			data: places
+			data: places,
+			rowHeight: 500,
+			top: 24
 		});
 		
 		lista.addEventListener('click', function(e) {
@@ -191,6 +212,8 @@
 				window.fireEvent('go_download');
 			}
 		});
+		window.add(barra);
+		window.add(botonAtras);
 		window.add(lista);
 		return window;
 	}
