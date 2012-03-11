@@ -3,7 +3,7 @@
  */
 (function() {
 	Spott.UI = {};
-	SERVER = "http://108.166.90.25:3000";
+	SERVER = "http://108.166.90.25";
 	var foursquareClient = 'R34PNLK00FEDEFX54LIZDOC51QUOJGPKHJUVNJVCDV42YON2';
 	var foursquareSecret = 'MJCYCVNYJ1HYYK05ZFBE3NJ511FRS0L24F2YWRQC43RGYXDJ';
 	var places = [];
@@ -13,6 +13,7 @@
 	var selectionData;
 	var u_id;
 	var place_id;
+	var u_name;
 	
 	Spott.UI.createLoginUI = function() {
 		var window = Titanium.UI.createWindow({
@@ -26,7 +27,7 @@
 		Titanium.Facebook.permissions = ['publish_stream','email','user_activities','user_interests','user_likes','user_birthday', 'offline_access']; // Permissions your app needs
 		Titanium.Facebook.addEventListener('login', function(e) {
 		    if (e.success) {
-		        isRegistered(Titanium.Facebook.getUid(), window);
+		        isRegistered(Titanium.Facebook.getUid(), window);		        
 		    } else if (e.error) {
 		        alert(e.error);
 		    } else if (e.cancelled) {
@@ -69,16 +70,29 @@
 	}
 	
 	function isRegistered(uid, window) {
-		u_id = uid;
+		u_id = uid;		
+		Titanium.Facebook.requestWithGraphPath('me', {}, "GET", function(e) {
+		    if (e.success) {
+		        u_name = JSON.parse(e.result).first_name;
+		    } else {
+		        if (e.error) {
+		            alert("Error connecting with Facebook.");
+		        } else {
+		            alert("Unkown result from Facebook.");
+		        }
+		    }
+		});
+		
 		var xhr = Titanium.Network.createHTTPClient();
 		xhr.onerror = function() {
-			alert("error");
-			//Titanium.UI.createAlertDialog({message:this.error}).show();
+			var alertDialog = Titanium.UI.createAlertDialog({ title: 'Spott is over capacity.', 
+				message: 'Please try again later.', buttonNames: ['OK'] });
+			alertDialog.show();
 		};
 		xhr.onload = function() {
-			window.fireEvent('go_home'); //quitar
+			window.fireEvent('go_home');
 		};
-		xhr.timeout = 5000;
+		xhr.timeout = 9000;
 		 
 		xhr.open("GET",SERVER + "/users/find_or_create/" + uid +".json");
 		xhr.send(); 
@@ -106,21 +120,26 @@
 			activity.hide();
 			window.fireEvent('go_results');
 		};
+		saveRequest.onerror = function(){
+			activity.hide();
+			alert("Query is taking too long to perform. Retry later.");
+		}
 		
+		saveRequest.timeout = 120000;
 		// NYC
-		lat = 40.7;
+		/*lat = 40.7;
 		lng = -74;
 		saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + radius + "&client_id=" + foursquareClient + "&client_secret=" + foursquareSecret + "&v=20120215" );
 		//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
-		saveRequest.send();
+		saveRequest.send();*/
 		
-		/*.Geolocation.getCurrentPosition(function(ll) {
+		Titanium.Geolocation.getCurrentPosition(function(ll) {
 			var lat = ll.coords.latitude;
 			var lng = ll.coords.longitude;
 			saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + radius + "&client_id=" + foursquareClient + "&client_secret=" + foursquareSecret + "&v=20120215" );
 			//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
 			saveRequest.send();	    	
-		});*/
+		});
 	}
 	
 	Spott.UI.createActionUI = function() {
@@ -316,46 +335,73 @@
 		view1.add(cameraButton);
 		
 		cameraButton.addEventListener('click', function() {
-			activity = windowWait(window);
-			activity.show();
 			
 			Titanium.Media.openPhotoGallery({
 		
     			success:function(event)
     			{
-    				var nombre = new Date().getTime().toString();
-	        
-			        var data_to_send = { 
-	        		    "userfile": event.media, 
-	            		"name": nombre+'.jpg',
-	            		"u_id": u_id,
-	            		"place_id": place_id
-	        		};
-	        		var xhr = Titanium.Network.createHTTPClient();
-	        		xhr.onload = function() {
-	        			activity.hide();
-						var dialog = Titanium.UI.createOptionDialog({
-					    	options:['Yes', 'No'],
-					    	cancel: 0,
-					    	title:'File upload finished. Do you want to upload another one?'
-						});
-						dialog.show();
-						dialog.addEventListener('click', function(e){
-							
-							if(e.index == 1){		
-								actionUI.open();
-								window.close();
-								if (uploadUI != undefined){
-									uploadUI.close();
-								}
-								placesUI.close();
-							}
-						});
-        			};
-        			
-	        		xhr.open("POST",SERVER + "/dfiles/receive/1.json");
-	       			xhr.send(data_to_send);        		
-	        		
+    				var input_text = Ti.UI.createTextField();
+    				input_text.value = u_name + "'s file.";
+					var input_dialog  = Ti.UI.createOptionDialog({
+					    androidView: input_text,
+					    buttonNames:['Cancel','Ok'],
+					    title:'Please input your file description.'
+					});
+					 
+					input_dialog.addEventListener('click', function(e) {
+					    if (e.index == 1) { 
+					    	if (input_text.value.length == 0){
+					    		input_text.value = u_name + "'s file.";
+					    	}
+				    		activity = windowWait(window);
+				    		activity.show();
+				    		
+				    		var nombre = new Date().getTime().toString();
+        
+					        var data_to_send = { 
+			        		    "userfile": event.media,
+			        		    "description": input_text.value,
+			            		"name": nombre+'.jpg',
+			            		"u_id": u_id,
+			            		"place_id": place_id
+			        		};
+			        		var xhr = Titanium.Network.createHTTPClient();
+			        		xhr.onload = function() {
+			        			activity.hide();
+								var dialog = Titanium.UI.createOptionDialog({
+							    	options:['Yes', 'No'],
+							    	cancel: 0,
+							    	title:'File upload finished. Do you want to upload another one?'
+								});
+								dialog.show();
+								dialog.addEventListener('click', function(e){
+									
+									if(e.index == 1){		
+										actionUI.open();
+										window.close();
+										if (uploadUI != undefined){
+											uploadUI.close();
+										}
+										placesUI.close();
+									}
+								});
+		        			};
+		        			xhr.timeout = 120000;
+		        			xhr.onerror = function() {
+		        				activity.hide();
+		        				alert("File is taking too long to upload. Retry later.");
+		        			};
+		        			
+		        			xhr.open("POST",SERVER + "/dfiles/receive/1.json");
+			       			xhr.send(data_to_send);
+					    		
+					    } else {
+					    	window.close();
+					    }
+					});
+    				
+    				input_dialog.show();
+    				       		
     			},
 	    		cancel:function()
 	    		{
@@ -394,7 +440,8 @@
 			files = [];
 			for (var index in dfiles) {
 				files.push({
-					"title": dfiles[index].name,
+					//"title": dfiles[index].name,
+					"title": dfiles[index].description,
 					"location": dfiles[index].location,
 					"id": dfiles[index].id,
 					"user_id": dfiles[index].user_id
@@ -449,7 +496,7 @@
 		
 		lista.addEventListener('click', function(e) {
 			selectionData = e.rowData;
-			var webview = Titanium.UI.createWebView({url: SERVER + "/data/" + selectionData.title});
+			var webview = Titanium.UI.createWebView({url: SERVER + selectionData.location.replace("public/","/")});
 			var window_2 = Titanium.UI.createWindow(); window_2.add(webview); window_2.open({modal:true});
 		});
 		
