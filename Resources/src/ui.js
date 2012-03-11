@@ -339,28 +339,28 @@
 									placesUI.addEventListener('go_download', function(e) {
 										downloadUI = Spott.UI.createDownloadUI();
 										downloadUI.open({animated:true});
-										//placesUI.close();
+										placesUI.close();
 										
 										downloadUI.addEventListener('go_file_download', function(e){
 											fileDownloadUI = Spott.UI.createFileDownloadUI();
 											fileDownloadUI.open({animated:true});
-											//downloadUI.close();
+											downloadUI.close();
 										});
 									});
 									
 									placesUI.addEventListener('go_upload', function(e) {
 										uploadUI = Spott.UI.createUploadUI();
 										uploadUI.open({animated:true});
-										//placesUI.close();
+										placesUI.close();
 										
 										uploadUI.addEventListener('go_file_upload', function(e){
 											fileUploadUI = Spott.UI.createFileUploadUI();
 											fileUploadUI.open({animated:true});
-											//uploadUI.close();
+											uploadUI.close();
 										});
 									});
 									
-									//actionUI.close();
+									actionUI.close();
 								});								
 								actionUI.open({animated:true});															
 								window.close();
@@ -395,8 +395,8 @@
 			navBarHidden: true
 		});
 		
-		activity = windowWait(window);
-		activity.show();
+		//activity = windowWait(window);
+		//activity.show();
 		var xhr = Titanium.Network.createHTTPClient();
 		xhr.onerror = function() {
 			Titanium.UI.createAlertDialog({message:this.error}).show();
@@ -404,7 +404,7 @@
 		xhr.onload = function() {
 			var dfiles = JSON.parse(this.responseText).dfiles;
 			place_id = JSON.parse(this.responseText).id;
-			activity.hide();
+			//activity.hide();
 			files = [];
 			for (var index in dfiles) {
 				files.push({

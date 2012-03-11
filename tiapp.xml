@@ -10,10 +10,10 @@
     <sdk-version>1.8.2</sdk-version>
     <id>spott.dev</id>
     <name>Spott</name>
-    <version>1.0</version>
-    <publisher>gina</publisher>
-    <url>http://</url>
-    <description>not specified</description>
+    <version>2.00</version>
+    <publisher>tonklis</publisher>
+    <url>http://www.spott-app.com</url>
+    <description>Mobile application to upload content that others can download and experience at the same physical location.</description>
     <copyright>2012 by tonk</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
