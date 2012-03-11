@@ -240,9 +240,14 @@
 		if(lista.data.length > 0){
 			window.add(lista);
 		}else{
-			//window.add(goBackButton);
-			alert("aqui no hay lugares");
-			window.add(lista);			
+			var noPlaces = Titanium.UI.createImageView({
+				url: '../images/noPlaces.png',
+				width: 340,
+				height: 80
+			});
+			
+			window.add(Titanium.UI.createView({height:50}));
+			window.add(noPlaces);			
 		}
 		return window;
 	}
@@ -285,11 +290,18 @@
 			navBarHidden: true
 		});
 
-		var cameraButton = Titanium.UI.createButton({
+		/*var cameraButton = Titanium.UI.createButton({
+			backgroundImage: '../images/botonCamara.png',
+			width: 140,
+			height: 125,
+			top: -40
+		});*/
+		
+		var pictureButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonGaleria.png',
 			width: 140,
 			height: 125,
-			top: -120
+			top: -180
 		});
 		
 		var barraArchivos = Titanium.UI.createImageView({
@@ -297,7 +309,6 @@
 			height: 90,
 			width: 480,
 		});
-		
 		
 		var botonBack = Titanium.UI.createButton({
 			backgroundImage: '../images/botonAtras.png',
@@ -332,9 +343,10 @@
 		view1.add(botonBack);
 		view1.add(logo);
 		view1.add(Titanium.UI.createView({height:350}));
-		view1.add(cameraButton);
+		view1.add(pictureButton);
+		//view1.add(cameraButton);
 		
-		cameraButton.addEventListener('click', function() {
+		pictureButton.addEventListener('click', function() {
 			
 			Titanium.Media.openPhotoGallery({
 		
@@ -361,7 +373,7 @@
 					        var data_to_send = { 
 			        		    "userfile": event.media,
 			        		    "description": input_text.value,
-			            		"name": nombre+'.jpg',
+			            		"name": nombre,
 			            		"u_id": u_id,
 			            		"place_id": place_id
 			        		};
