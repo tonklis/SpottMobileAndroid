@@ -72,7 +72,8 @@
 		u_id = uid;
 		var xhr = Titanium.Network.createHTTPClient();
 		xhr.onerror = function() {
-			Titanium.UI.createAlertDialog({message:this.error}).show();
+			alert("error");
+			//Titanium.UI.createAlertDialog({message:this.error}).show();
 		};
 		xhr.onload = function() {
 			window.fireEvent('go_home'); //quitar
@@ -107,19 +108,19 @@
 		};
 		
 		// NYC
-		/*lat = 40.7;
+		lat = 40.7;
 		lng = -74;
 		saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + radius + "&client_id=" + foursquareClient + "&client_secret=" + foursquareSecret + "&v=20120215" );
 		//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
-		saveRequest.send();*/
+		saveRequest.send();
 		
-		Titanium.Geolocation.getCurrentPosition(function(ll) {
+		/*.Geolocation.getCurrentPosition(function(ll) {
 			var lat = ll.coords.latitude;
 			var lng = ll.coords.longitude;
 			saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + radius + "&client_id=" + foursquareClient + "&client_secret=" + foursquareSecret + "&v=20120215" );
 			//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
 			saveRequest.send();	    	
-		});
+		});*/
 	}
 	
 	Spott.UI.createActionUI = function() {
@@ -128,8 +129,7 @@
 			backgroundImage: '../images/botonSubida.png',
 			backgroundSelectedImage: '../images/botonSubidaPicado.png',
 			width: 384,
-			height: 149,
-			
+			height: 149
 		});
 		var downloadButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonDescarga.png',
@@ -214,9 +214,17 @@
 				window.fireEvent('go_download');
 			}
 		});
+		
 		window.add(barra);
 		window.add(botonAtras);
-		window.add(lista);
+		
+		if(lista.data.length > 0){
+			window.add(lista);
+		}else{
+			//window.add(goBackButton);
+			alert("aqui no hay lugares");
+			window.add(lista);			
+		}
 		return window;
 	}
 	
@@ -282,7 +290,11 @@
 		});
 		
 		botonBack.addEventListener('click', function(e){
+			placesUI.open();
 			window.close();
+			if (uploadUI != undefined){
+				uploadUI.close();
+			}
 		});
 		
 		var view1 = Titanium.UI.createView({
@@ -331,39 +343,12 @@
 						dialog.addEventListener('click', function(e){
 							
 							if(e.index == 1){		
-								actionUI = Spott.UI.createActionUI();
-								actionUI.addEventListener('go_results', function(e) {
-									placesUI = Spott.UI.createPlacesUI();
-									placesUI.open({animated:true});
-								
-									placesUI.addEventListener('go_download', function(e) {
-										downloadUI = Spott.UI.createDownloadUI();
-										downloadUI.open({animated:true});
-										placesUI.close();
-										
-										downloadUI.addEventListener('go_file_download', function(e){
-											fileDownloadUI = Spott.UI.createFileDownloadUI();
-											fileDownloadUI.open({animated:true});
-											downloadUI.close();
-										});
-									});
-									
-									placesUI.addEventListener('go_upload', function(e) {
-										uploadUI = Spott.UI.createUploadUI();
-										uploadUI.open({animated:true});
-										placesUI.close();
-										
-										uploadUI.addEventListener('go_file_upload', function(e){
-											fileUploadUI = Spott.UI.createFileUploadUI();
-											fileUploadUI.open({animated:true});
-											uploadUI.close();
-										});
-									});
-									
-									actionUI.close();
-								});								
-								actionUI.open({animated:true});															
+								actionUI.open();
 								window.close();
+								if (uploadUI != undefined){
+									uploadUI.close();
+								}
+								placesUI.close();
 							}
 						});
         			};
@@ -374,6 +359,7 @@
     			},
 	    		cancel:function()
 	    		{
+	    			activity.hide();
 	    		},
 	    		error:function(error)
 	    		{	
@@ -426,7 +412,8 @@
 					
 					if(e.index == 0){
 						fileUploadUI = Spott.UI.createFileUploadUI();
-						fileUploadUI.open({animated:true});
+						fileUploadUI.open();
+						window.close();											
 					} else {
 						window.close();
 					}
@@ -472,7 +459,6 @@
 			width: 480,
 		});
 		
-		
 		var botonBack = Titanium.UI.createButton({
 			backgroundImage: '../images/botonAtras.png',
 			backgroundSelectedImage: '../images/botonAtrasPicado.png',
@@ -483,7 +469,11 @@
 		});
 		
 		botonBack.addEventListener('click', function(e){
+			placesUI.open();
 			window.close();
+			if (downloadUI != undefined){
+				downloadUI.close();
+			}
 		});
 		
 		window.add(barraArchivos);

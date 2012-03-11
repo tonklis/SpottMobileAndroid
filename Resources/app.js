@@ -10,39 +10,35 @@ var fileDownloadUI;
 var fileUploadUI;
 
 loginUI.window().addEventListener('go_home', function(e) {
-	actionUI.open({animated:true});
+	actionUI.open();
 	loginUI.window().close();
 });
 
 actionUI.addEventListener('go_results', function(e) {
-	
 	placesUI = Spott.UI.createPlacesUI();
-	placesUI.open({animated:true});
+	placesUI.open();
 
 	placesUI.addEventListener('go_download', function(e) {
 		downloadUI = Spott.UI.createDownloadUI();
-		downloadUI.open({animated:true});
-		placesUI.close();
+		downloadUI.open();
 		
 		downloadUI.addEventListener('go_file_download', function(e){
 			fileDownloadUI = Spott.UI.createFileDownloadUI();
-			fileDownloadUI.open({animated:true});
+			fileDownloadUI.open();
 			downloadUI.close();
 		});
 	});
 	
 	placesUI.addEventListener('go_upload', function(e) {
 		uploadUI = Spott.UI.createUploadUI();
-		uploadUI.open({animated:true});
-		placesUI.close();
+		uploadUI.open();
 		
 		uploadUI.addEventListener('go_file_upload', function(e){
 			fileUploadUI = Spott.UI.createFileUploadUI();
-			fileUploadUI.open({animated:true});
+			fileUploadUI.open();
 			uploadUI.close();
 		});
 	});
-	actionUI.close();
 });
 
-loginUI.window().open({animated:true});
+loginUI.window().open();
