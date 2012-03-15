@@ -36,13 +36,21 @@
 		});
 		
 		if (!Titanium.Facebook.getLoggedIn()) {
+			
 			var view1 = Titanium.UI.createView({
-				layout: 'vertical',
-				backgroundImage: '../images/fondoConLogo.png',
-				width: 480,
-				height: 800
+					layout: 'vertical',
+					backgroundImage: '../images/fondo.png',
+					width: 480,
+					height: 800
 			});
-			view1.add(Titanium.UI.createView({height:400}));
+			
+			var logo = Titanium.UI.createImageView({
+				url: '../images/LogoWithSubtitle_chico.png',
+				top: 100
+			});
+			
+			view1.add(logo);
+			view1.add(Titanium.UI.createView({height:200}));
 			
 			var loginBtn = Titanium.UI.createButton({
 				backgroundImage: '../images/fb-connect-large.png',
@@ -85,7 +93,7 @@
 		
 		var xhr = Titanium.Network.createHTTPClient();
 		xhr.onerror = function() {
-			var alertDialog = Titanium.UI.createAlertDialog({ title: 'Spott is over capacity.', 
+			var alertDialog = Titanium.UI.createAlertDialog({ title: 'Spott is taking too long to reply.', 
 				message: 'Please try again later.', buttonNames: ['OK'] });
 			alertDialog.show();
 		};
@@ -125,7 +133,7 @@
 			alert("Query is taking too long to perform. Retry later.");
 		}
 		
-		saveRequest.timeout = 120000;
+		saveRequest.timeout = 90000;
 		// NYC
 		/*lat = 40.7;
 		lng = -74;
@@ -176,13 +184,19 @@
 		
 		var view1 = Titanium.UI.createView({
 				layout: 'vertical',
-				backgroundImage: '../images/fondoConLogo.png',
+				backgroundImage: '../images/fondo.png',
 				width: 480,
 				height: 800
-			});
-		view1.add(Titanium.UI.createView({height:350}));
+		});
 		
+		var logo = Titanium.UI.createImageView({
+			url: '../images/LogoWithSubtitle_chico.png',
+			top: 100
+		});
 		
+		view1.add(logo);
+		view1.add(Titanium.UI.createView({height:200}));
+				
 		view1.add(uploadButton);
 		view1.add(Titanium.UI.createView({height:30}));
 		view1.add(downloadButton);
@@ -289,19 +303,17 @@
 			fullscreen: true,
 			navBarHidden: true
 		});
-
-		/*var cameraButton = Titanium.UI.createButton({
+		
+		var cameraButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonCamara.png',
-			width: 140,
-			height: 125,
-			top: -40
-		});*/
+			width: 284,
+			height: 140	
+		});
 		
 		var pictureButton = Titanium.UI.createButton({
 			backgroundImage: '../images/botonGaleria.png',
-			width: 140,
-			height: 125,
-			top: -180
+			width: 284,
+			height: 140
 		});
 		
 		var barraArchivos = Titanium.UI.createImageView({
@@ -335,15 +347,16 @@
 		});
 		
 		var logo = Titanium.UI.createImageView({
-			url: '../images/logoChico.png',
-			top: 34
+			url: '../images/LogoWithSubtitle_chico.png',
+			top: 100
 		});
 		
 		view1.add(barraArchivos);
 		view1.add(botonBack);
 		view1.add(logo);
-		view1.add(Titanium.UI.createView({height:350}));
+		view1.add(Titanium.UI.createView({height:120}));
 		view1.add(pictureButton);
+		view1.add(Titanium.UI.createView({height:20}));
 		//view1.add(cameraButton);
 		
 		pictureButton.addEventListener('click', function() {
@@ -388,12 +401,14 @@
 								dialog.show();
 								dialog.addEventListener('click', function(e){
 									
-									if(e.index == 1){		
+									if(e.index == 1){	
+										dialog.hide();
+										input_dialog.hide();	
 										actionUI.open();
 										window.close();
-										if (uploadUI != undefined){
+										try{
 											uploadUI.close();
-										}
+										}catch(error){}
 										placesUI.close();
 									}
 								});
