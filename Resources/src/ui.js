@@ -357,7 +357,8 @@
 		view1.add(Titanium.UI.createView({height:120}));
 		view1.add(pictureButton);
 		view1.add(Titanium.UI.createView({height:20}));
-		//view1.add(cameraButton);
+		view1.add(cameraButton);
+		
 		
 		pictureButton.addEventListener('click', function() {
 			
@@ -395,17 +396,31 @@
 			        			activity.hide();
 								var dialog = Titanium.UI.createOptionDialog({
 							    	options:['Yes', 'No'],
-							    	cancel: 0,
-							    	title:'File upload finished. Do you want to upload another one?'
+							    	cancel: 1,
+							    	title:'Upload finished. Do you want to share it on Facebook?'
 								});
 								dialog.show();
 								dialog.addEventListener('click', function(e){
 									
-									if(e.index == 1){	
+									if(e.index == 0){	
+										activity.show();
 										dialog.hide();
-										input_dialog.hide();	
+										input_dialog.hide();
 										actionUI.open();
-										window.close();
+										var data_for_facebook = {
+											message: 'I just uploaded a file using Spott!',
+											picture: event.media
+										};
+										Titanium.Facebook.requestWithGraphPath('me/photos', data_for_facebook, 'POST', function(e){
+											if (e.success){
+												window.close();
+												activity.hide();					
+											} else {
+												activity.hide();
+												alert("Facebook returned an unknown error");												
+											}											
+										});
+										
 										try{
 											uploadUI.close();
 										}catch(error){}
@@ -413,7 +428,7 @@
 									}
 								});
 		        			};
-		        			xhr.timeout = 120000;
+		        			xhr.timeout = 100000;
 		        			xhr.onerror = function() {
 		        				activity.hide();
 		        				alert("File is taking too long to upload. Retry later.");
@@ -442,6 +457,105 @@
 	    		},
 			});	
 		});
+		
+		cameraButton.addEventListener('click', function() {
+			
+			Titanium.Media.showCamera({
+		
+    			success:function(event)
+    			{    				
+    				var input_text = Ti.UI.createTextField();
+    				input_text.value = u_name + "'s file.";
+					var input_dialog  = Ti.UI.createOptionDialog({
+					    androidView: input_text,
+					    buttonNames:['Cancel','Ok'],
+					    title:'Please input your file description.'
+					});
+					 
+					input_dialog.addEventListener('click', function(e) {
+					    if (e.index == 1) { 
+					    	if (input_text.value.length == 0){
+					    		input_text.value = u_name + "'s file.";
+					    	}
+				    		activity = windowWait(window);
+				    		activity.show();
+				    		
+				    		var nombre = new Date().getTime().toString();
+        
+					        var data_to_send = { 
+			        		    "userfile": event.media,
+			        		    "description": input_text.value,
+			            		"name": nombre,
+			            		"u_id": u_id,
+			            		"place_id": place_id
+			        		};
+			        		var xhr = Titanium.Network.createHTTPClient();
+			        		xhr.onload = function() {
+			        			activity.hide();
+								var dialog = Titanium.UI.createOptionDialog({
+							    	options:['Yes', 'No'],
+							    	cancel: 1,
+							    	title:'Upload finished. Do you want to share it on Facebook?'
+								});
+								dialog.show();
+								dialog.addEventListener('click', function(e){
+									
+									if(e.index == 0){	
+										activity.show();
+										dialog.hide();
+										input_dialog.hide();
+										actionUI.open();
+										var data_for_facebook = {
+											message: 'I just uploaded a file using Spott!',
+											picture: event.media
+										};
+										Titanium.Facebook.requestWithGraphPath('me/photos', data_for_facebook, 'POST', function(e){
+											if (e.success){
+												window.close();
+												activity.hide();					
+											} else {
+												activity.hide();
+												alert("Facebook returned an unknown error");												
+											}											
+										});
+										
+										try{
+											uploadUI.close();
+										}catch(error){}
+										placesUI.close();
+									}
+								});
+		        			};
+		        			xhr.timeout = 100000;
+		        			xhr.onerror = function() {
+		        				activity.hide();
+		        				alert("File is taking too long to upload. Retry later.");
+		        			};
+		        			
+		        			xhr.open("POST",SERVER + "/dfiles/receive/1.json");
+			       			xhr.send(data_to_send);
+					    		
+					    } else {
+					    	window.close();
+					    }
+					});
+    				
+    				input_dialog.show();
+    				       		
+    			},
+	    		cancel:function()
+	    		{
+	    			activity.hide();
+	    		},
+	    		error:function(error)
+	    		{	
+			        var a = Titanium.UI.createAlertDialog({title:'Gallery'});
+			        a.setMessage('Unexpected error: ' + error.code);			  
+	        		a.show();
+	    		},
+			});	
+		});
+		
 		window.add(view1);
 		return window;
 	}
