@@ -1,44 +1,21 @@
-var Spott = {};
-Ti.include("/src/ui.js");
+/*
+ * Punto de entrada. Siguiendo el template de single window.
+ * 
+ * por: Benjamín Hernández
+ */
+Ti.App.SERVER = "http://108.166.90.25";
+Ti.App.FOURSQUARE_CLIENT = "R34PNLK00FEDEFX54LIZDOC51QUOJGPKHJUVNJVCDV42YON2";
+Ti.App.FOURSQUARE_SECRET = "MJCYCVNYJ1HYYK05ZFBE3NJ511FRS0L24F2YWRQC43RGYXDJ";
+Ti.App.FACEBOOK_ID = "250631718358046";
+Ti.App.FACEBOOK_PERMISSIONS = ['publish_stream','email', 'offline_access'];
+Ti.App.TIMEOUT = 90000;
+Ti.App.U_NAME = "";
+Ti.App.RADIUS = 500;
+Ti.App.PLACES = [];
+Ti.App.UPLOAD;
+Ti.App.SELECTION_DATA;
+Ti.App.PLACE_ID;
+Ti.App.FILES = [];
 
-var loginUI = Spott.UI.createLoginUI();
-var actionUI = Spott.UI.createActionUI();
-var placesUI;
-var uploadUI;
-var downloadUI;
-var fileDownloadUI;
-var fileUploadUI;
-
-loginUI.window().addEventListener('go_home', function(e) {
-	actionUI.open();
-	loginUI.window().close();
-});
-
-actionUI.addEventListener('go_results', function(e) {
-	placesUI = Spott.UI.createPlacesUI();
-	placesUI.open();
-
-	placesUI.addEventListener('go_download', function(e) {
-		downloadUI = Spott.UI.createDownloadUI();
-		downloadUI.open();
-		
-		downloadUI.addEventListener('go_file_download', function(e){
-			fileDownloadUI = Spott.UI.createFileDownloadUI();
-			fileDownloadUI.open();
-			downloadUI.close();
-		});
-	});
-	
-	placesUI.addEventListener('go_upload', function(e) {
-		uploadUI = Spott.UI.createUploadUI();
-		uploadUI.open();
-		
-		uploadUI.addEventListener('go_file_upload', function(e){
-			fileUploadUI = Spott.UI.createFileUploadUI();
-			fileUploadUI.open();
-			uploadUI.close();
-		});
-	});
-});
-
-loginUI.window().open();
+var ApplicationWindow = require('ui/ApplicationWindow');
+new ApplicationWindow().open();
