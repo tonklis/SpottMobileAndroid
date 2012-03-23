@@ -12,14 +12,14 @@ var view1 = Titanium.UI.createView({
 
 var uploadButton = Titanium.UI.createButton({
 	backgroundImage: '../../images/botonSubida.png',
-	backgroundSelectedImage: 'images/botonSubidaPicado.png',
+	backgroundSelectedImage: '../../images/botonSubidaPicado.png',
 	width: "92%",
 	height: "20%"
 });
 
 var downloadButton = Titanium.UI.createButton({
 	backgroundImage: '../../images/botonDescarga.png',
-	backgroundSelectedImage: 'images/botonDescargaPicado.png',
+	backgroundSelectedImage: '../../images/botonDescargaPicado.png',
 	width: "92%",
 	height: "20%"
 });
