@@ -7,7 +7,7 @@ function Places(){
 		return Ti.UI.createWindow({
 			backgroundColor:'#ffffff',
 			navBarHidden:true,
-			url: "application/views/Places.js"
+			url: "/application/views/Places.js"
 		});
 	}
 	

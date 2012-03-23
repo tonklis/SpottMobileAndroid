@@ -4,7 +4,7 @@ function Download(){
 		return Ti.UI.createWindow({
 			backgroundColor:'#ffffff',
 			navBarHidden:true,
-			url: "application/views/Download.js"
+			url: "/application/views/Download.js"
 		});
 	}
 }

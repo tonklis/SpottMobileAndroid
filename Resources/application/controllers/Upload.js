@@ -4,7 +4,7 @@ function Upload(){
 		return Ti.UI.createWindow({
 			backgroundColor:'#ffffff',
 			navBarHidden:true,
-			url: "application/views/Upload.js"
+			url: "/application/views/Upload.js"
 		});
 	}
 	

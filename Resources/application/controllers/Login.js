@@ -42,9 +42,10 @@ function Login(){
 			alertDialog.show();
 		};
 		xhr.onload = function() {
-			if (windowToClose != null){
+			if (windowToClose != null){				
 				HomeController.display().open();
-				windowToClose.close();
+				//FOR ANDROID
+				//windowToClose.close();				
 			}					
 		};
 		xhr.timeout = Ti.App.TIMEOUT;
