@@ -2,6 +2,7 @@ function Places(){
 	
 	var UploadC = require("application/controllers/Upload"), UploadController = new UploadC();
 	var DownloadC = require("application/controllers/Download"), DownloadController = new DownloadC();
+	var InteractionC = require("application/controllers/Interaction"), InteractionController = new InteractionC();
 	
 	this.display = function(){
 		return Ti.UI.createWindow({
@@ -30,9 +31,9 @@ function Places(){
 				uploadWindow.open();	
 			} else {				
 				var dfiles = JSON.parse(this.responseText).dfiles;
-				Ti.App.FILES = [];
+				files = [];
 				for (var index in dfiles) {
-					Ti.App.FILES.push({
+					files.push({
 						//"title": dfiles[index].name,
 						"title": dfiles[index].description,
 						"location": dfiles[index].location,
@@ -45,6 +46,23 @@ function Places(){
 					downloadWindow.addEventListener("android:back", function(e){
 						downloadWindow.close();
 					});
+					
+					var lista = Titanium.UI.createTableView({
+						data: files,
+						// FOR ANDROID
+						// rowHeight: 500,
+						top: "13%"
+					});
+					
+					lista.addEventListener('click', function(e) {
+						var selectionData = e.rowData;
+						var view = InteractionController.display();
+						var webView = Titanium.UI.createWebView({url: Ti.App.SERVER + selectionData.location.replace("public/","/")});
+						view.add(webView);
+						view.open();
+					});
+					
+					downloadWindow.add(lista);
 					downloadWindow.open();
 				} else {
 					var dialog = Titanium.UI.createOptionDialog({

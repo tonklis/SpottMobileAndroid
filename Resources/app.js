@@ -11,7 +11,6 @@ Ti.App.FACEBOOK_PERMISSIONS = ['publish_stream','email', 'offline_access'];
 Ti.App.TIMEOUT = 90000;
 Ti.App.U_NAME = "";
 Ti.App.RADIUS = 500;
-Ti.App.PLACES = [];
 Ti.App.UPLOAD;
 Ti.App.SELECTION_DATA;
 Ti.App.PLACE_ID;

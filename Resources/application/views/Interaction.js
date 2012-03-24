@@ -1,10 +1,11 @@
-var placesWindow = Ti.UI.currentWindow, PlacesC = require("application/controllers/Places"), PlacesController = new PlacesC();
+var interactionWindow = Ti.UI.currentWindow, InteractionC = require("application/controllers/Interaction"), InteractionController = new InteractionC();
 
 var WindowWait = require('ui/Screen');
 WindowWait = new WindowWait();
 
+
 var barra = Titanium.UI.createImageView({
-	image: '../../images/barraPlaces.png',
+	image: '../../images/barra.png',
 	width: "100%",
 	//FOR ANDROID
 	//top: "-2%"
@@ -23,10 +24,9 @@ var botonAtras = Titanium.UI.createButton({
 	height: "6%"
 });
 
-botonAtras.addEventListener('click',function(e){
-	placesWindow.close();
+botonAtras.addEventListener('click', function(e){
+	interactionWindow.close();
 });
 
-placesWindow.add(barra);
-//FOR IPHONE
-placesWindow.add(botonAtras);
+interactionWindow.add(barra);
+interactionWindow.add(botonAtras);
