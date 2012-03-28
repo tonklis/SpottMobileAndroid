@@ -57,7 +57,10 @@ function Places(){
 					lista.addEventListener('click', function(e) {
 						var selectionData = e.rowData;
 						var view = InteractionController.display();
-						var webView = Titanium.UI.createWebView({url: Ti.App.SERVER + selectionData.location.replace("public/","/")});
+						var webView = Titanium.UI.createWebView({
+							url: Ti.App.SERVER + selectionData.location.replace("public/","/"),
+							top: "12%"
+						});
 						view.add(webView);
 						view.open();
 					});

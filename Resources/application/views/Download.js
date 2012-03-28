@@ -4,7 +4,7 @@ var WindowWait = require('ui/Screen');
 WindowWait = new WindowWait();
 
 var barra = Titanium.UI.createImageView({
-	image: '../../images/barraPlaces.png',
+	image: '../../images/barraFiles.png',
 	width: "100%",
 	//FOR ANDROID
 	//top: "-2%"

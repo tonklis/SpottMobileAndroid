@@ -14,7 +14,6 @@ Ti.App.RADIUS = 500;
 Ti.App.UPLOAD;
 Ti.App.SELECTION_DATA;
 Ti.App.PLACE_ID;
-Ti.App.FILES = [];
 
 var ApplicationWindow = require('ui/ApplicationWindow');
 new ApplicationWindow().open();

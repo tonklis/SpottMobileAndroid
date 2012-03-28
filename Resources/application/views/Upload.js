@@ -6,31 +6,41 @@ WindowWait = new WindowWait();
 var barra = Titanium.UI.createImageView({
 	image: '../../images/barraFiles.png',
 	width: "100%",
-	top: "-2%"
+	//FOR ANDROID
+	//top: "-2%",
+	//FOR IPHONE
+	height: "90",
+	top: "-4%"
 });
 
 var botonAtras = Titanium.UI.createButton({
 	backgroundImage: '../../images/botonAtras.png',
 	backgroundSelectedImage: '../../images/botonAtrasPicado.png',
 	width: "15%",
-	top: "-9%",
-	left: "1%"
+	top: "3%",
+	left: "1%",
+	//FOR IPHONE
+	height: "6%"
 });
 
-var cameraButton = Titanium.UI.createButton({
-	backgroundImage: '../../images/botonCamara.png',
-	width: "70%",
-	height: "25%"
+botonAtras.addEventListener('click', function(e){
+	uploadWindow.close();
 });
 
 var pictureButton = Titanium.UI.createButton({
 	backgroundImage: '../../images/botonGaleria.png',
 	width: "70%",
-	height: "25%"
+	height: "25%",
+	//FOR IPHONE
+	top: "25%"
 });
 
-botonAtras.addEventListener('click', function(e){
-	uploadWindow.close();
+var cameraButton = Titanium.UI.createButton({
+	backgroundImage: '../../images/botonCamara.png',
+	width: "70%",
+	height: "25%",
+	//FOR IPHONE
+	top: "60%"
 });
 
 var view1 = Titanium.UI.createView({
@@ -47,19 +57,22 @@ var logo = Titanium.UI.createImageView({
 });
 
 cameraButton.addEventListener('click', function(e){
-	UploadController.camera(WindowWait, uploadWindow);	
+	UploadController.camera(uploadWindow);	
 });
 
 pictureButton.addEventListener('click', function(e){
-	UploadController.picture(WindowWait, uploadWindow);
+	UploadController.picture(uploadWindow);
 });
 
+/* For ANDROID
 view1.add(barra);
-//view1.add(botonAtras);
-//view1.add(logo);
 view1.add(Titanium.UI.createView({height:"15%"}));
 view1.add(pictureButton);
 view1.add(Titanium.UI.createView({height:"10%"}));
 view1.add(cameraButton);
 
-uploadWindow.add(view1);
+uploadWindow.add(view1);*/
+
+//view1.add(botonAtras);
+//view1.add(logo);
+uploadWindow.add(view1, barra, botonAtras, pictureButton, cameraButton);
