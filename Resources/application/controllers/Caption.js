@@ -32,10 +32,9 @@ function Caption(){
 			dialog.addEventListener('click', function(e){
 				
 				if(e.index == 0){
-					captionWindow.close();
+					//FOR IPHONE
+					//captionWindow.close();
 					WindowWait.show();
-					//dialog.hide();
-					//input_dialog.hide();
 					var data_for_facebook = {
 						message: 'I just uploaded a file using Spott!',
 						picture: event.media,
@@ -48,12 +47,14 @@ function Caption(){
 					};
 					Titanium.Facebook.requestWithGraphPath('me/photos', data_for_facebook, 'POST', function(e){
 						if (e.success){
-							captionWindow.close();
-							//this.fireEvent('close_places');
+							//FOR IPHONE
+							//captionWindow.close();
 							WindowWait.hide();
 							var a = Titanium.UI.createAlertDialog({
 							    title:'Success',
-							    message:'Sharing complete!'
+							    message:'Sharing complete!',
+							    // For ANDROID
+							    buttonNames: ['OK']
 							});
 							a.show();
 						} else {
@@ -61,9 +62,10 @@ function Caption(){
 							alert("Facebook returned an unknown error");												
 						}											
 					});
-				} else {
+				} /* FOR IPHONE
+				else {
 					captionWindow.close();
-				}
+				}*/
 			});
 		};
 		xhr.timeout = Ti.App.TIMEOUT;
@@ -74,7 +76,6 @@ function Caption(){
 		
 		xhr.open("POST", Ti.App.SERVER + "/dfiles/receive/1.json");
 		xhr.send(data_to_send);
-		
 	}
 }
 

@@ -16,7 +16,7 @@ var uploadButton = Titanium.UI.createButton({
 	width: "92%",
 	height: "20%",
 	//FOR IPHONE
-	top: "45%"
+	//top: "45%"
 });
 
 var downloadButton = Titanium.UI.createButton({
@@ -25,7 +25,7 @@ var downloadButton = Titanium.UI.createButton({
 	width: "92%",
 	height: "20%",
 	//FOR IPHONE
-	top: "70%"
+	//top: "70%"
 });
 
 uploadButton.addEventListener('click', function(e){
@@ -38,22 +38,22 @@ downloadButton.addEventListener('click', function(e){
 
 var logo = Titanium.UI.createImageView({
 	image: '../../images/LogoWithSubtitle_chico.png',
-	/*FOR ANDROID
+	//FOR ANDROID
 	top: "12%",
 	width: "65%"	 
-	*/	
-	width: "65%",
-	height: "65%",
-	top: "-10%"
+	//FOR IPHONE	
+	//width: "65%",
+	//height: "65%",
+	//top: "-10%"
 });
 
-//for IOS
-homeWindow.add(view1, logo, uploadButton, downloadButton);
-/* FOR ANDROID
+//for IPHONE
+//homeWindow.add(view1, logo, uploadButton, downloadButton);
+//FOR ANDROID
 view1.add(logo);
 view1.add(Titanium.UI.createView({height:"10%"}));		
 view1.add(uploadButton);
 view1.add(Titanium.UI.createView({height:"4%"}));
 view1.add(downloadButton);
 
-homeWindow.add(view1);*/
+homeWindow.add(view1);

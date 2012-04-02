@@ -45,7 +45,7 @@ function Login(){
 			if (windowToClose != null){				
 				HomeController.display().open();
 				//FOR ANDROID
-				//windowToClose.close();				
+				windowToClose.close();				
 			}					
 		};
 		xhr.timeout = Ti.App.TIMEOUT;

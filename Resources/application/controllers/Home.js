@@ -51,8 +51,11 @@ function Home(){
 			if(arreglo.length > 0){
 				var lista = Titanium.UI.createTableView({
 					data: arreglo,
-					//FOR ANDROIDrowHeight: 500,
-					top: "13%"
+					//FOR ANDROID
+					rowHeight: 500,
+					top: "11%"
+					//FOR IPHONE
+					//top: "13%"
 				});
 				
 				lista.addEventListener('click', function(e) {
@@ -82,44 +85,44 @@ function Home(){
 		
 		saveRequest.timeout = Ti.App.TIMEOUT;
 		// NYC
-		/*lat = 40.7;
+		lat = 40.7;
 		lng = -74;
 		saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + Ti.App.RADIUS + "&client_id=" + Ti.App.FOURSQUARE_CLIENT + "&client_secret=" + Ti.App.FOURSQUARE_SECRET + "&v=20120215" );
 		//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
-		saveRequest.send();*/
+		saveRequest.send();
 		
-		Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
+		/*Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
 		Titanium.Geolocation.distanceFilter = 50;
 		Titanium.Geolocation.getCurrentPosition(function(ll) {
 
 			if(ll.error){
 				WindowWait.hide();
-				
+				/* FOR IPHONE
 				var dialog = Titanium.UI.createAlertDialog({
 				    title:'Reinstall Spott',
 				    message:'Please allow your GPS to be used by Spott.'
 				});
-				dialog.show();
-				/*	
+				dialog.show(); 
+				//	FOR ANDROID
 				var dialog = Titanium.UI.createOptionDialog({
 			    	options:['Yes', 'No'],
 			    	title:'Please allow your GPS to be used by Spott to continue.',
 			    	cancel: 1
 				});
 				dialog.show();
-				dialog.addEventListener('click', function(e){						
+				dialog.addEventListener('click', function(e){
 					if(e.index == 0){
 						Titanium.Geolocation.addEventListener('location', function(e) {	});												
 					}
-				});*/
+				});
 			}else{
 				var lat = ll.coords.latitude;
 				var lng = ll.coords.longitude;
 				saveRequest.open("GET","https://api.foursquare.com/v2/venues/explore?ll=" + lat + "," + lng + "&radius=" + Ti.App.RADIUS + "&client_id=" + Ti.App.FOURSQUARE_CLIENT + "&client_secret=" + Ti.App.FOURSQUARE_SECRET + "&v=20120215" );
 				//saveRequest.setRequestHeader("Content-Type","application/json; charset=utf-8");
 				saveRequest.send();	
-			}	    	
-		});
+			}
+		});*/
 	}
 }
 

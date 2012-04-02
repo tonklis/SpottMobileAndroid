@@ -13,7 +13,7 @@ function CaptionWindow(){
 	});
 	
 	this.inputLabel = Ti.UI.createLabel({
-		text: 'Please input your file description.',
+		text: "Please input your file's description.",
 		font: {fontSize:18},
 		height: "10%",
 		width: "90%",

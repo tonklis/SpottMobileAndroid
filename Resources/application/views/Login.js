@@ -9,22 +9,24 @@ var view1 = Titanium.UI.createView({
 
 var logo = Titanium.UI.createImageView({
 	image: '../../images/LogoWithSubtitle_chico.png',
-	/*FOR ANDROID
+	//FOR ANDROID
 	top: "12%",
 	width: "70%"	 
-	*/	
-	width: "70%",
-	height: "70%",
-	top: "-10%"
+	//FOR IPHONE	
+	//width: "70%",
+	//height: "70%",
+	//top: "-10%"
 });
 
 var loginBtn = Titanium.UI.createButton({
 	backgroundImage: '../../images/fb-connect-large.png',
-	/*FOR ANDROIDwidth: "80%",
-	height: "8%"*/
-	width: "90%",
-	height: "10%",
-	top: "60%"
+	//FOR ANDROID
+	width: "80%",
+	height: "8%"
+	//FOR IPHONE
+	//width: "90%",
+	//height: "10%",
+	//top: "60%"
 });
 
 loginBtn.addEventListener('click', LoginController.authorize);
@@ -41,10 +43,10 @@ Titanium.Facebook.addEventListener('login', function(e) {
     }
 });
 
-//for IOS
-loginWindow.add(view1, logo, loginBtn);
-/*FOR ANDROID
+//for IPHONE
+//loginWindow.add(view1, logo, loginBtn);
+//FOR ANDROID
 view1.add(logo);
 view1.add(Titanium.UI.createView({height:"20%"}));
 view1.add(loginBtn);
-loginWindow.add(view1);*/
+loginWindow.add(view1);

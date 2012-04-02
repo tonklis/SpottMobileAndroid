@@ -7,10 +7,10 @@ var barra = Titanium.UI.createImageView({
 	image: '../../images/barraFiles.png',
 	width: "100%",
 	//FOR ANDROID
-	//top: "-2%"
+	top: "-2%"
 	//FOR IPHONE
-	height: "90",
-	top: "-4%"
+	//height: "90",
+	//top: "-4%"
 });
 
 var botonAtras = Titanium.UI.createButton({
@@ -20,7 +20,7 @@ var botonAtras = Titanium.UI.createButton({
 	top: "3%",
 	left: "1%",
 	//FOR IPHONE
-	height: "6%"
+	//height: "6%"
 });
 
 botonAtras.addEventListener('click', function(e){
@@ -29,4 +29,4 @@ botonAtras.addEventListener('click', function(e){
 
 downloadWindow.add(barra);
 // FOR IPHONE
-downloadWindow.add(botonAtras);
+//downloadWindow.add(botonAtras);

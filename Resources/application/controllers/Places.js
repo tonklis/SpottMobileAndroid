@@ -50,8 +50,10 @@ function Places(){
 					var lista = Titanium.UI.createTableView({
 						data: files,
 						// FOR ANDROID
-						// rowHeight: 500,
-						top: "13%"
+						rowHeight: 500,
+						top: "11%"
+						// FOR IPHONE
+						// top: "13%"
 					});
 					
 					lista.addEventListener('click', function(e) {
@@ -59,7 +61,10 @@ function Places(){
 						var view = InteractionController.display();
 						var webView = Titanium.UI.createWebView({
 							url: Ti.App.SERVER + selectionData.location.replace("public/","/"),
-							top: "12%"
+							//FOR ANDROID
+							top: "10%"
+							//FOR IPHONE
+							//top: "12%"
 						});
 						view.add(webView);
 						view.open();
